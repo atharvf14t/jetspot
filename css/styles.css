@@ -137,6 +137,11 @@ button {
   margin-left: auto;
 }
 
+.links .slide {
+  color: #0a0a0a;
+  font-weight: 600;
+}
+
 .slide {
   display: inline-grid;
   height: 1.15em;
@@ -167,6 +172,7 @@ button {
   background: var(--ink);
   color: #fff;
   font-size: 14px;
+  font-weight: 600;
   letter-spacing: -0.03em;
   white-space: nowrap;
   transition: transform 0.35s var(--ease), background 0.35s var(--ease);
