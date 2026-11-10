@@ -134,6 +134,83 @@
     });
   });
 
+  // Each section rises once as it enters, staggered when several arrive together.
+  var reduceMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (!reduceMotion && "IntersectionObserver" in window) {
+    var pieces = [];
+    var seen = [];
+    var addPiece = function (el) {
+      if (!el || seen.indexOf(el) !== -1) return;
+      seen.push(el);
+      pieces.push(el);
+    };
+    document.querySelectorAll("main > section, main > article").forEach(function (block) {
+      if (block.querySelector(".prose")) {
+        addPiece(block);
+      } else if (block.classList.contains("hero")) {
+        block.querySelectorAll(".hero-title, .hero-meta, .hero-photo").forEach(addPiece);
+      } else if (block.querySelector(".svc-card")) {
+        block.querySelectorAll(":scope > .wrap > .pill, :scope > .wrap > h1, :scope > .wrap > .lede, :scope > .wrap > .svc-head, .svc-card").forEach(addPiece);
+      } else if (block.querySelector(".acc")) {
+        block.querySelectorAll(".eyebrow, .acc").forEach(addPiece);
+      } else if (block.querySelector(".post-card")) {
+        block.querySelectorAll(".blog-head, .post-card").forEach(addPiece);
+      } else if (block.querySelector(".post-grid")) {
+        block.querySelectorAll(".blog-hero, .filters, .post-grid > a").forEach(addPiece);
+      } else if (block.querySelector(".quote-grid")) {
+        block.querySelectorAll(".quote").forEach(addPiece);
+      } else if (block.querySelector(".app")) {
+        block.querySelectorAll(".app").forEach(addPiece);
+      } else if (block.classList.contains("partner")) {
+        block.querySelectorAll(":scope > .wrap > .kicker, :scope > .wrap > h1, :scope > .wrap > .lede, .perk-row, .partner-copy, .how, .refer").forEach(addPiece);
+      } else if (block.querySelector(".connect")) {
+        block.querySelectorAll(".connect, .ask").forEach(addPiece);
+      } else {
+        addPiece(block);
+      }
+    });
+    addPiece(document.querySelector("footer.footer"));
+    pieces.forEach(function (el) { el.classList.add("rise"); });
+
+    var queued = [];
+    var flushTimer = 0;
+    var flush = function () {
+      flushTimer = 0;
+      var batch = queued;
+      queued = [];
+      batch.sort(function (a, b) {
+        var ra = a.getBoundingClientRect();
+        var rb = b.getBoundingClientRect();
+        if (Math.abs(ra.top - rb.top) > 12) return ra.top - rb.top;
+        return ra.left - rb.left;
+      });
+      batch.forEach(function (el, i) {
+        el.style.transitionDelay = Math.min(0.12 + i * 0.1, 0.52) + "s";
+        el.classList.add("is-in");
+      });
+    };
+    var io = new IntersectionObserver(function (entries) {
+      var grew = false;
+      entries.forEach(function (entry) {
+        if (!entry.isIntersecting) return;
+        queued.push(entry.target);
+        io.unobserve(entry.target);
+        grew = true;
+      });
+      if (grew) {
+        clearTimeout(flushTimer);
+        flushTimer = setTimeout(flush, 40);
+      }
+    }, { threshold: 0, rootMargin: "0px 0px 8% 0px" });
+
+    requestAnimationFrame(function () {
+      document.documentElement.classList.add("motion-ready");
+      requestAnimationFrame(function () {
+        pieces.forEach(function (el) { io.observe(el); });
+      });
+    });
+  }
+
   // Safari ignores prefers-color-scheme inside an SVG favicon.
   var safari = /^((?!chrome|android|crios|fxios|edg).)*safari/i.test(navigator.userAgent);
   var icon = document.querySelector('link[rel="icon"]');

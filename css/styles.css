@@ -1233,6 +1233,26 @@ textarea {
   color: var(--muted);
 }
 
+/* Sections rise into place, the same timed fade QubeSys uses. */
+.rise {
+  opacity: 0;
+  transform: translateY(80px);
+  content-visibility: visible;
+  pointer-events: none;
+}
+
+html.motion-ready .rise {
+  transition:
+    opacity 0.8s cubic-bezier(0.44, 0, 0.56, 1),
+    transform 0.8s cubic-bezier(0.44, 0, 0.56, 1);
+}
+
+.rise.is-in {
+  opacity: 1;
+  transform: none;
+  pointer-events: auto;
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
@@ -1245,6 +1265,14 @@ textarea {
   .btn {
     animation: none;
     transition: none;
+  }
+
+  .rise,
+  .rise.is-in {
+    opacity: 1;
+    transform: none;
+    transition: none;
+    pointer-events: auto;
   }
 }
 
