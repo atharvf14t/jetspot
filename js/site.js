@@ -166,7 +166,7 @@
       } else if (block.querySelector(".connect")) {
         block.querySelectorAll(".connect, .ask").forEach(addPiece);
       } else if (block.classList.contains("contact")) {
-        block.querySelectorAll(".contact-hero, .contact-aside, .contact-panel").forEach(addPiece);
+        block.querySelectorAll(".contact-hero, .contact-mailblock, .contact-aside, .contact-panel").forEach(addPiece);
       } else {
         addPiece(block);
       }

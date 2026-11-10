@@ -1117,21 +1117,34 @@ textarea {
   display: grid;
   grid-template-columns: minmax(0, 720px) minmax(280px, 500px);
   justify-content: start;
-  gap: 80px;
+  column-gap: 80px;
+  row-gap: 22px;
   margin-top: 84px;
   align-items: start;
 }
 
+.contact-mailblock {
+  grid-column: 1;
+  grid-row: 1;
+  display: grid;
+  gap: 4px;
+}
+
 .contact-aside {
+  grid-column: 1;
+  grid-row: 2;
   display: grid;
   align-content: start;
   gap: 22px;
-  padding-top: 6px;
 }
 
-.contact-mailblock {
-  display: grid;
-  gap: 4px;
+.contact-panel {
+  grid-column: 2;
+  grid-row: 2;
+}
+
+.contact-aside > .contact-rule:first-child {
+  margin-top: 0;
 }
 
 .contact-mail {
@@ -1365,8 +1378,19 @@ textarea {
 
   .contact-grid {
     grid-template-columns: 1fr;
-    gap: 48px;
+    row-gap: 22px;
     margin-top: 48px;
+  }
+
+  .contact-mailblock,
+  .contact-aside,
+  .contact-panel {
+    grid-column: auto;
+    grid-row: auto;
+  }
+
+  .contact-panel {
+    margin-top: 26px;
   }
 
   .rating {
