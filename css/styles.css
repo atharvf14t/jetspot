@@ -371,7 +371,6 @@ button {
   animation-duration: 36s;
 }
 
-.marquee:hover .marquee-track,
 .ticker:hover .ticker-track {
   animation-play-state: paused;
 }
