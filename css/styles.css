@@ -552,6 +552,14 @@ section {
   src: url("../fonts/inter.woff2") format("woff2");
 }
 
+@font-face {
+  font-family: "Montserrat";
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url("../fonts/montserrat.woff2") format("woff2");
+}
+
 /* Stories */
 .stories-head {
   display: flex;
@@ -1796,6 +1804,16 @@ html.motion-ready .rise {
 
 body.tone {
   background: #f5f5f5;
+  font-family: "Montserrat", sans-serif;
+}
+
+body.tone :where(h1, h2, h3, h4, h5, h6, p, li, a, span, label, button, time, strong, em, small),
+body.tone .logo,
+body.tone .fett,
+body.tone .perk-row div,
+body.tone .how-grid div,
+body.tone .how h2 {
+  font-family: "Montserrat", sans-serif;
 }
 
 body.tone .topbar {
@@ -1811,12 +1829,13 @@ body.tone .topbar {
   margin: 0;
   font-size: 14px;
   letter-spacing: -0.03em;
-  color: #141414;
+  color: #0a0a0a;
 }
 
 .partner h1 {
   margin: 14px 0 10px;
   font-size: clamp(1.9rem, 3.27vw, 55px);
+  font-weight: 700;
   line-height: 1;
   letter-spacing: -0.08em;
   text-align: center;
@@ -1825,7 +1844,7 @@ body.tone .topbar {
 .partner .lede {
   max-width: 760px;
   margin: 0 auto;
-  color: #545454;
+  color: #0a0a0a;
   font-size: 20px;
   line-height: 1.45;
   letter-spacing: -0.04em;
@@ -1886,7 +1905,7 @@ body.tone .topbar {
   max-width: none;
   margin: 8px auto 0;
   text-align: left;
-  color: #141414;
+  color: #0a0a0a;
   font-size: 18px;
   letter-spacing: -0.04em;
 }
