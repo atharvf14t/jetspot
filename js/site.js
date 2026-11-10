@@ -165,6 +165,8 @@
         block.querySelectorAll(":scope > .wrap > .kicker, :scope > .wrap > h1, :scope > .wrap > .lede, .perk-row, .partner-copy, .how, .refer").forEach(addPiece);
       } else if (block.querySelector(".connect")) {
         block.querySelectorAll(".connect, .ask").forEach(addPiece);
+      } else if (block.classList.contains("contact")) {
+        block.querySelectorAll(".contact-hero, .contact-aside, .contact-panel").forEach(addPiece);
       } else {
         addPiece(block);
       }

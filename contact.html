@@ -6,7 +6,7 @@
   <title>Contact Jetspot</title>
   <meta name="description" content="Tell Jetspot about a project. We reply within a day." />
   <link rel="icon" href="favicon.svg?v=tick7" type="image/svg+xml" />
-  <link rel="stylesheet" href="css/styles.css?v=rise" />
+  <link rel="stylesheet" href="css/styles.css?v=contact5" />
 </head>
 <body>
   <a class="skip" href="#main">Skip to content</a>
@@ -41,36 +41,73 @@
   </div>
   <main id="main">
 
-    <section class="page-hero">
-      <div class="wrap split">
-        <div>
-          <p class="eyebrow">/ Contact</p>
-          <h1>let’s talk.</h1>
-          <p class="lede">Tell us about the project, the question, or the idea. We reply within one working day.</p>
-          <p class="note"><a href="mailto:hello@jetspot.com">hello@jetspot.com</a><br />Available worldwide.</p>
-          <p class="note"><strong>Response time.</strong><br />We respond in 12–24 hours.</p>
+    <section class="contact">
+      <div class="wrap">
+        <div class="contact-hero">
+          <h1>let's talk.</h1>
+          <p>Tell us about your project, question, or idea. We'll get back to you within 24 hours.</p>
         </div>
-        <div>
-          <form class="form" data-form>
-            <label>Name<input name="name" required autocomplete="name" /></label>
-            <label>Email<input type="email" name="email" required autocomplete="email" /></label>
-            <label>Company<input name="company" autocomplete="organization" /></label>
-            <label>What do you need?
-              <select name="need" required>
-                <option value="">Choose one</option>
-                <option>Website or app</option>
-                <option>CRM or internal system</option>
-                <option>Content and social</option>
-                <option>Consulting</option>
-                <option>Something else</option>
-              </select>
-            </label>
-            <label>Project<textarea name="project" required placeholder="A few lines on the work, the timing, and what done looks like."></textarea></label>
-            <button class="btn" type="submit">Send the note</button>
-          </form>
-          <div class="thanks" data-thanks>
-            <h2>Thanks — we have it.</h2>
-            <p>This demo keeps the note in your browser. Email hello@jetspot.com and we will pick it up from there.</p>
+        <div class="contact-grid">
+          <div class="contact-aside">
+            <div class="contact-mailblock">
+              <a class="contact-mail" href="mailto:hello@jetspot.com">hello@jetspot.com</a>
+              <p>Available worldwide.</p>
+            </div>
+            <hr class="contact-rule" />
+            <nav class="contact-social" aria-label="Social">
+              <a href="https://x.com" rel="noreferrer">Twitter/X</a>
+              <a href="https://instagram.com" rel="noreferrer">Instagram</a>
+              <a href="https://linkedin.com" rel="noreferrer">LinkedIn</a>
+            </nav>
+            <hr class="contact-rule" />
+            <p class="contact-response">Response time.<br />We respond in 12-24 hours.</p>
+          </div>
+          <div class="contact-panel">
+            <form class="contact-form" data-form>
+              <label><span class="contact-label">Full Name <span class="req" aria-hidden="true">*</span></span>
+                <input name="name" required autocomplete="name" placeholder="Your full name" />
+              </label>
+              <label><span class="contact-label">Email Address <span class="req" aria-hidden="true">*</span></span>
+                <input type="email" name="email" required autocomplete="email" placeholder="your@email.com" />
+              </label>
+              <label><span class="contact-label">Phone Number <span class="req" aria-hidden="true">*</span></span>
+                <input type="tel" name="phone" required autocomplete="tel" placeholder="+1 (555) 000-0000" />
+              </label>
+              <label><span class="contact-label">Project Type <span class="req" aria-hidden="true">*</span></span>
+                <select name="type" required>
+                  <option value="" selected disabled hidden></option>
+                  <option>Website</option>
+                  <option>E-commerce Website</option>
+                  <option>Mobile App</option>
+                  <option>CRM</option>
+                  <option>ERP</option>
+                  <option>Custom Software</option>
+                  <option>Social Media</option>
+                  <option>Personal Branding</option>
+                  <option>Business Social Presence</option>
+                  <option>Social Media Content Planning</option>
+                  <option>Others</option>
+                </select>
+              </label>
+              <label><span class="contact-label">Project Requirements <span class="req" aria-hidden="true">*</span></span>
+                <textarea name="requirements" required placeholder="Briefly describe what you need..."></textarea>
+              </label>
+              <label><span class="contact-label">Budget Range <span class="req" aria-hidden="true">*</span></span>
+                <select name="budget" required>
+                  <option value="" selected disabled hidden></option>
+                  <option>$5,000 - $10,000</option>
+                  <option>$10,000 - $25,000</option>
+                  <option>$25,000 - $50,000</option>
+                  <option>$50,000 - $100,000</option>
+                  <option>$100,000+</option>
+                </select>
+              </label>
+              <button class="btn" type="submit">Submit →</button>
+            </form>
+            <div class="thanks" data-thanks>
+              <h2>Thanks — we have it.</h2>
+              <p>This demo keeps the note in your browser. Email hello@jetspot.com and we will pick it up from there.</p>
+            </div>
           </div>
         </div>
       </div>
@@ -116,6 +153,6 @@
       </div>
     </div>
   </footer>
-  <script src="js/site.js?v=rise3" defer></script>
+  <script src="js/site.js?v=contact1" defer></script>
 </body>
 </html>
