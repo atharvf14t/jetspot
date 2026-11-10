@@ -105,6 +105,22 @@
     }, { passive: true });
   }
 
+  var filters = document.querySelector("[data-filters]");
+  if (filters) {
+    filters.addEventListener("click", function (event) {
+      var link = event.target.closest("a");
+      if (!link) return;
+      event.preventDefault();
+      var cat = link.getAttribute("data-cat");
+      filters.querySelectorAll("a").forEach(function (item) {
+        item.classList.toggle("is-on", item === link);
+      });
+      document.querySelectorAll("[data-post]").forEach(function (card) {
+        card.hidden = cat !== "all" && card.getAttribute("data-post") !== cat;
+      });
+    });
+  }
+
   document.querySelectorAll("form[data-form]").forEach(function (form) {
     form.addEventListener("submit", function (event) {
       event.preventDefault();
