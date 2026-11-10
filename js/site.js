@@ -133,4 +133,16 @@
       if (thanks) thanks.classList.add("show");
     });
   });
+
+  // Safari ignores prefers-color-scheme inside an SVG favicon.
+  var safari = /^((?!chrome|android|crios|fxios|edg).)*safari/i.test(navigator.userAgent);
+  var icon = document.querySelector('link[rel="icon"]');
+  if (safari && icon && window.matchMedia) {
+    var scheme = window.matchMedia("(prefers-color-scheme: dark)");
+    var paintIcon = function () {
+      icon.href = scheme.matches ? "favicon-dark.svg?v=tick6" : "favicon-light.svg?v=tick6";
+    };
+    paintIcon();
+    scheme.addEventListener("change", paintIcon);
+  }
 })();
