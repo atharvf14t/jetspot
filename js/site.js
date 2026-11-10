@@ -140,7 +140,7 @@
   if (safari && icon && window.matchMedia) {
     var scheme = window.matchMedia("(prefers-color-scheme: dark)");
     var paintIcon = function () {
-      icon.href = scheme.matches ? "favicon-dark.svg?v=tick6" : "favicon-light.svg?v=tick6";
+      icon.href = scheme.matches ? "favicon-dark.svg?v=tick7" : "favicon-light.svg?v=tick7";
     };
     paintIcon();
     scheme.addEventListener("change", paintIcon);
