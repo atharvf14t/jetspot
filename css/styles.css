@@ -1860,8 +1860,8 @@ body.tone .topbar {
 
 .perk-row {
   grid-template-columns: repeat(3, max-content);
-  gap: 28px 56px;
-  margin: 42px 0 28px;
+  gap: 28px 84px;
+  margin: 64px 0 56px;
 }
 
 .perk-row div,
@@ -1881,13 +1881,20 @@ body.tone .topbar {
 
 .how-grid div {
   font-size: 25px;
+  font-weight: 600;
   line-height: 1;
+  white-space: nowrap;
 }
 
 .perk-row b {
   display: block;
   width: 4.7em;
   font-weight: 700;
+}
+
+.perk-row b.perk-break {
+  width: auto;
+  white-space: nowrap;
 }
 
 .bubble {
@@ -1899,6 +1906,12 @@ body.tone .topbar {
   place-items: center;
   flex: none;
   color: #111;
+}
+
+.bubble.mark {
+  font-size: 30px;
+  font-weight: 700;
+  line-height: 1;
 }
 
 .partner-copy {
@@ -1915,10 +1928,14 @@ body.tone .topbar {
   line-height: 1.55;
 }
 
+.how {
+  padding-bottom: 36px;
+}
+
 .how h2 {
-  margin: 48px 0 28px;
+  margin: 48px 0 56px;
   font-family: var(--text);
-  font-weight: 800;
+  font-weight: 700;
   font-size: clamp(2rem, 2.86vw, 48px);
   line-height: 1;
   letter-spacing: -0.07em;
@@ -1926,8 +1943,8 @@ body.tone .topbar {
 }
 
 .how-grid {
-  grid-template-columns: repeat(3, 240px);
-  gap: 26px 36px;
+  grid-template-columns: repeat(3, max-content);
+  gap: 44px 64px;
 }
 
 .how-grid .bubble {
@@ -1941,7 +1958,7 @@ body.tone .topbar {
   justify-content: space-between;
   gap: 20px;
   margin-top: 48px;
-  padding: 26px 28px;
+  padding: 48px 28px;
   border-radius: 22px;
   background: #121212;
   color: #fff;
