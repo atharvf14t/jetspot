@@ -549,6 +549,7 @@ section {
   transition: transform 0.5s cubic-bezier(0.44, 0, 0.56, 1);
 }
 
+.acc.open .acc-shot,
 .acc:hover .acc-shot {
   width: 150px;
   height: 68px;
@@ -556,6 +557,7 @@ section {
   opacity: 1;
 }
 
+.acc.open .acc-shot img,
 .acc:hover .acc-shot img {
   transform: none;
 }
@@ -592,35 +594,42 @@ section {
   width: 100%;
   height: 100%;
   color: #4d4d4d;
-  transition:
-    transform 0.5s cubic-bezier(0.44, 0, 0.56, 1),
-    opacity 0.5s cubic-bezier(0.44, 0, 0.56, 1);
+  transition: opacity 0.5s cubic-bezier(0.44, 0, 0.56, 1);
 }
 
 .acc-num {
   font-weight: 700;
   letter-spacing: -0.05em;
+  transition:
+    transform 0.5s cubic-bezier(0.44, 0, 0.56, 1),
+    opacity 0.5s cubic-bezier(0.44, 0, 0.56, 1);
 }
 
 .acc-plus {
   opacity: 0;
-  transform: rotate(-90deg);
 }
 
 .acc-plus svg {
   width: 0.95em;
   height: 0.95em;
   fill: currentColor;
+  transform: rotate(0deg);
+  transition: transform 0.5s cubic-bezier(0.44, 0, 0.56, 1);
 }
 
-.acc:hover .acc-num {
+.acc:hover .acc-num,
+.acc.open .acc-num {
   opacity: 0;
   transform: translateY(-70%);
 }
 
-.acc:hover .acc-plus {
+.acc:hover .acc-plus,
+.acc.open .acc-plus {
   opacity: 1;
-  transform: none;
+}
+
+.acc.open .acc-plus svg {
+  transform: rotate(45deg);
 }
 
 .acc-body {
@@ -638,29 +647,46 @@ section {
   min-height: 0;
 }
 
+#services .acc-copy {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 40px;
+  padding: 6px 0 28px 166px;
+}
+
 .acc-inner p {
-  margin: 0 0 16px;
-  max-width: 52ch;
-  color: rgba(255, 255, 255, 0.72);
+  margin: 0;
+  flex: 1 1 auto;
+  max-width: 34em;
+  color: rgba(255, 255, 255, 0.55);
   font-size: 16px;
+  letter-spacing: -0.02em;
+  line-height: 1.4;
 }
 
 .chips {
   display: flex;
   flex-wrap: wrap;
+  justify-content: flex-end;
+  align-content: center;
   gap: 8px;
-  margin: 0 0 18px;
+  flex: 0 1 430px;
+  margin: 0;
   padding: 0;
   list-style: none;
 }
 
 .chips li {
-  padding: 6px 10px;
-  border-radius: 999px;
-  border: 1px solid rgba(255, 255, 255, 0.16);
-  font-size: 13px;
+  padding: 5px 12px;
+  border-radius: 30px;
+  border: 0;
+  background: #ebebeb;
+  font-size: 12px;
+  line-height: 1.25;
   letter-spacing: -0.02em;
-  color: rgba(255, 255, 255, 0.86);
+  color: #000;
+  white-space: nowrap;
 }
 
 .panel-cta {
@@ -686,6 +712,19 @@ section {
     font-size: 24px;
   }
 
+  #services .acc-copy {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+    padding: 4px 0 20px;
+  }
+
+  .chips {
+    flex-basis: auto;
+    justify-content: flex-start;
+  }
+
+  .acc.open .acc-shot,
   .acc:hover .acc-shot {
     width: 88px;
     height: 44px;
@@ -1694,6 +1733,7 @@ html.motion-ready .rise {
   .acc-shot img,
   .acc-num,
   .acc-plus,
+  .acc-plus svg,
   .btn {
     animation: none;
     transition: none;

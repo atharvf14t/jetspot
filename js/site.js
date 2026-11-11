@@ -31,15 +31,8 @@
       if (!btn) return;
       btn.addEventListener("click", function () {
         var willOpen = !item.classList.contains("open");
-        items.forEach(function (other) {
-          other.classList.remove("open");
-          var b = other.querySelector(".acc-btn");
-          if (b) b.setAttribute("aria-expanded", "false");
-        });
-        if (willOpen) {
-          item.classList.add("open");
-          btn.setAttribute("aria-expanded", "true");
-        }
+        item.classList.toggle("open", willOpen);
+        btn.setAttribute("aria-expanded", willOpen ? "true" : "false");
       });
     });
   });
