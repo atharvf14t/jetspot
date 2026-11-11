@@ -171,7 +171,6 @@
         addPiece(block);
       }
     });
-    addPiece(document.querySelector("footer.footer"));
     pieces.forEach(function (el) { el.classList.add("rise"); });
 
     var queued = [];
@@ -211,6 +210,37 @@
         pieces.forEach(function (el) { io.observe(el); });
       });
     });
+  }
+
+  // Full-screen footer reveal: text stays nearly still while the black band scrolls up over it.
+  var footer = document.querySelector("footer.footer");
+  var footerWrap = footer && footer.querySelector(".wrap");
+  var footerWide = window.matchMedia("(min-width: 981px)");
+  if (footer && footerWrap) {
+    var footerFrame = 0;
+    var placeFooter = function () {
+      if (reduceMotion || !footerWide.matches) {
+        footerWrap.style.transform = "";
+        return;
+      }
+      var rect = footer.getBoundingClientRect();
+      var entered = window.innerHeight - rect.top;
+      var shift = entered - rect.height;
+      if (shift < -rect.height) shift = -rect.height;
+      if (shift > 0) shift = 0;
+      footerWrap.style.transform = "translate3d(0," + shift.toFixed(2) + "px,0)";
+    };
+    var queueFooter = function () {
+      if (footerFrame) return;
+      footerFrame = requestAnimationFrame(function () {
+        footerFrame = 0;
+        placeFooter();
+      });
+    };
+    placeFooter();
+    window.addEventListener("scroll", queueFooter, { passive: true });
+    window.addEventListener("resize", queueFooter);
+    footerWide.addEventListener("change", queueFooter);
   }
 
   // Safari ignores prefers-color-scheme inside an SVG favicon.
