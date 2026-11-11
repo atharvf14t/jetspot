@@ -450,6 +450,41 @@ section {
   letter-spacing: -0.045em;
 }
 
+#about .display {
+  max-width: 22em;
+  font-weight: 500;
+  font-size: clamp(2.15rem, 4.5vw, 3.25rem);
+}
+
+.about-line .ticker {
+  margin-top: 22px;
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, #000 7.5%, #000 92.5%, transparent 100%);
+  mask-image: linear-gradient(to right, transparent 0%, #000 7.5%, #000 92.5%, transparent 100%);
+}
+
+@media (min-width: 981px) {
+  .about-line {
+    display: flex;
+    align-items: center;
+    gap: 48px;
+    margin-top: 28px;
+  }
+
+  .about-line .ticker {
+    flex: 1;
+    min-width: 0;
+    margin-top: 0;
+  }
+
+  .about-line .sub {
+    flex: none;
+    width: 400px;
+    max-width: 400px;
+    margin: 0;
+    text-align: right;
+  }
+}
+
 .sub {
   max-width: 46ch;
   margin: 22px 0 0;
@@ -1369,6 +1404,11 @@ textarea {
 @media (max-width: 700px) {
   :root {
     --pad: 16px;
+  }
+
+  #about .display {
+    max-width: none;
+    font-size: 6.15vw;
   }
 }
 
