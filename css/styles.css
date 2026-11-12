@@ -1031,6 +1031,78 @@ section {
   font-size: clamp(2.4rem, 4.6vw, 3.5rem);
 }
 
+#blog .blog-head {
+  display: block;
+}
+
+#blog .blog-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 32px;
+  margin-top: 18px;
+}
+
+#blog .blog-row .sub {
+  margin: 0;
+  max-width: 36ch;
+  font-size: 16px;
+  line-height: 1.45;
+}
+
+#blog .blog-row .btn {
+  flex: none;
+  font-weight: 400;
+}
+
+#blog .cards {
+  gap: 16px;
+  margin-top: 42px;
+}
+
+#blog .post-media {
+  height: auto;
+  aspect-ratio: 4 / 3;
+  border-radius: 12px;
+  overflow: hidden;
+  margin-bottom: 18px;
+  background: #ececec;
+}
+
+#blog .post-media img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+#blog .post-card time {
+  font-size: 13px;
+  color: #8a8a8a;
+}
+
+#blog .post-card h3 {
+  margin: 8px 0 8px;
+  font-size: 18px;
+  font-weight: 400;
+  letter-spacing: -0.03em;
+  line-height: 1.35;
+}
+
+#blog .post-card p {
+  font-size: 14px;
+  line-height: 1.45;
+  color: #8a8a8a;
+}
+
+@media (max-width: 700px) {
+  #blog .blog-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+  }
+}
+
 .page-hero h1.heavy {
   font-weight: 700;
 }
