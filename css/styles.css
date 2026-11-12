@@ -596,19 +596,19 @@ section {
   width: 100%;
   height: 100%;
   color: #4d4d4d;
-  transition: opacity 0.5s cubic-bezier(0.44, 0, 0.56, 1);
-}
-
-.acc-num {
-  font-weight: 700;
-  letter-spacing: -0.05em;
   transition:
     transform 0.5s cubic-bezier(0.44, 0, 0.56, 1),
     opacity 0.5s cubic-bezier(0.44, 0, 0.56, 1);
 }
 
+.acc-num {
+  font-weight: 700;
+  letter-spacing: -0.05em;
+  transform: translateX(0);
+}
+
 .acc-plus {
-  opacity: 0;
+  transform: translateX(100%);
 }
 
 .acc-plus svg {
@@ -621,13 +621,12 @@ section {
 
 .acc:hover .acc-num,
 .acc.open .acc-num {
-  opacity: 0;
-  transform: translateY(-70%);
+  transform: translateX(-100%);
 }
 
 .acc:hover .acc-plus,
 .acc.open .acc-plus {
-  opacity: 1;
+  transform: translateX(0);
 }
 
 .acc.open .acc-plus svg {
