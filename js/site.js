@@ -40,62 +40,87 @@
   var scroller = document.querySelector("[data-carousel]");
   if (scroller) {
     var track = scroller.querySelector(".carousel-track");
-    var cards = track ? track.children : [];
-    var dots = document.querySelector("[data-dots]");
+    var originals = track ? track.children.length : 0;
     var index = 0;
+    var animating = false;
+    var timer = 0;
+    var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-    var go = function (next) {
-      if (!cards.length) return;
-      index = (next + cards.length) % cards.length;
-      var card = cards[index];
-      scroller.scrollTo({ left: card.offsetLeft - track.offsetLeft, behavior: "smooth" });
-      paint();
-    };
-
-    var paint = function () {
-      if (!dots) return;
-      Array.prototype.forEach.call(dots.children, function (dot, i) {
-        if (i === index) dot.setAttribute("aria-current", "true");
-        else dot.removeAttribute("aria-current");
-      });
-    };
-
-    if (dots) {
-      Array.prototype.forEach.call(cards, function (_, i) {
-        var b = document.createElement("button");
-        b.type = "button";
-        b.setAttribute("aria-label", "Scroll to story " + (i + 1));
-        b.addEventListener("click", function () { go(i); });
-        dots.appendChild(b);
-      });
-      paint();
+    if (track && originals) {
+      for (var i = 0; i < originals; i++) {
+        var clone = track.children[i].cloneNode(true);
+        clone.setAttribute("aria-hidden", "true");
+        track.appendChild(clone);
+      }
     }
+
+    var step = function () {
+      var card = track.children[0];
+      var gap = parseFloat(getComputedStyle(track).columnGap || getComputedStyle(track).gap) || 0;
+      return card.getBoundingClientRect().width + gap;
+    };
+
+    var place = function (i, animate) {
+      track.style.transition = animate && !reduce
+        ? "transform 0.5s cubic-bezier(0.44, 0, 0.56, 1)"
+        : "none";
+      track.style.transform = "translateX(" + (-i * step()) + "px)";
+    };
+
+    var go = function (dir) {
+      if (!track || !originals || animating) return;
+      var release = function () {
+        clearTimeout(timer);
+        timer = setTimeout(function () { animating = false; }, 560);
+      };
+      if (dir < 0 && index === 0) {
+        if (reduce) {
+          index = originals - 1;
+          place(index, false);
+          return;
+        }
+        index = originals;
+        place(index, false);
+        requestAnimationFrame(function () {
+          requestAnimationFrame(function () {
+            index = originals - 1;
+            animating = true;
+            place(index, true);
+            release();
+          });
+        });
+        return;
+      }
+      animating = true;
+      index += dir;
+      place(index, true);
+      if (reduce) {
+        if (index >= originals) index = 0;
+        place(index, false);
+        animating = false;
+        return;
+      }
+      release();
+    };
+
+    track.addEventListener("transitionend", function (event) {
+      if (event.target !== track || event.propertyName !== "transform") return;
+      if (index >= originals) {
+        index = 0;
+        place(index, false);
+      }
+      animating = false;
+    });
+
+    window.addEventListener("resize", function () {
+      place(index, false);
+    });
 
     document.querySelectorAll("[data-dir]").forEach(function (btn) {
       btn.addEventListener("click", function () {
-        go(index + Number(btn.getAttribute("data-dir")));
+        go(Number(btn.getAttribute("data-dir")));
       });
     });
-
-    var ticking = false;
-    scroller.addEventListener("scroll", function () {
-      if (ticking) return;
-      ticking = true;
-      requestAnimationFrame(function () {
-        var closest = 0;
-        var best = Infinity;
-        Array.prototype.forEach.call(cards, function (card, i) {
-          var dist = Math.abs(card.offsetLeft - track.offsetLeft - scroller.scrollLeft);
-          if (dist < best) {
-            best = dist;
-            closest = i;
-          }
-        });
-        index = closest;
-        paint();
-        ticking = false;
-      });
-    }, { passive: true });
   }
 
   var filters = document.querySelector("[data-filters]");
