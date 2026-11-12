@@ -1089,6 +1089,10 @@ section {
   line-height: 1.35;
 }
 
+#blog .post-card:hover h3 {
+  text-decoration: none;
+}
+
 #blog .post-card p {
   font-size: 14px;
   line-height: 1.45;
