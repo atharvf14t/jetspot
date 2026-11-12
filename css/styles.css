@@ -615,7 +615,7 @@ section {
   width: 0.95em;
   height: 0.95em;
   fill: currentColor;
-  transform: rotate(0deg);
+  transform: rotate(45deg);
   transition: transform 0.5s cubic-bezier(0.44, 0, 0.56, 1);
 }
 
@@ -627,6 +627,10 @@ section {
 .acc:hover .acc-plus,
 .acc.open .acc-plus {
   transform: translateX(0);
+}
+
+.acc:hover .acc-plus svg {
+  transform: rotate(0deg);
 }
 
 .acc.open .acc-plus svg {
