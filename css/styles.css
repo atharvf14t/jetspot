@@ -298,6 +298,8 @@ button {
 
 .hero-meta .marquee {
   margin-top: 0;
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, #000 7.5%, #000 92.5%, transparent 100%);
+  mask-image: linear-gradient(to right, transparent 0%, #000 7.5%, #000 92.5%, transparent 100%);
 }
 
 .lede {
@@ -510,8 +512,8 @@ section {
   color: rgba(255, 255, 255, 0.55);
 }
 
-.acc + .acc {
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
+#services .eyebrow {
+  margin-bottom: 40px;
 }
 
 .acc-btn {
@@ -697,7 +699,14 @@ section {
 
 #services .panel-cta {
   justify-content: flex-start;
-  margin-top: 28px;
+  margin-top: 44px;
+}
+
+#services .panel-cta .btn {
+  height: 44px;
+  padding: 0 20px;
+  font-size: 17px;
+  font-weight: 400;
 }
 
 @media (min-width: 981px) {
