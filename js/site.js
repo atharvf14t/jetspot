@@ -261,6 +261,35 @@
     footerWide.addEventListener("change", queueFooter);
   }
 
+  var zoomFrames = document.querySelectorAll("[data-zoom]");
+  if (zoomFrames.length && !reduceMotion) {
+    var zoomTicket = 0;
+    var placeZoom = function () {
+      var vh = window.innerHeight || document.documentElement.clientHeight;
+      var start = vh * 0.92;
+      var end = vh * 0.08;
+      var span = start - end;
+      zoomFrames.forEach(function (frame) {
+        var img = frame.querySelector("img");
+        if (!img) return;
+        var p = (start - frame.getBoundingClientRect().top) / span;
+        if (p < 0) p = 0;
+        if (p > 1) p = 1;
+        img.style.transform = "scale(" + (1.12 - 0.12 * p).toFixed(4) + ")";
+      });
+    };
+    var queueZoom = function () {
+      if (zoomTicket) return;
+      zoomTicket = requestAnimationFrame(function () {
+        zoomTicket = 0;
+        placeZoom();
+      });
+    };
+    placeZoom();
+    window.addEventListener("scroll", queueZoom, { passive: true });
+    window.addEventListener("resize", queueZoom);
+  }
+
   // Safari ignores prefers-color-scheme inside an SVG favicon.
   var safari = /^((?!chrome|android|crios|fxios|edg).)*safari/i.test(navigator.userAgent);
   var icon = document.querySelector('link[rel="icon"]');
