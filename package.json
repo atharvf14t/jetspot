@@ -1,7 +1,0 @@
-{
-  "name": "jetspot",
-  "private": true,
-  "dependencies": {
-    "nodemailer": "^10.6.0"
-  }
-}

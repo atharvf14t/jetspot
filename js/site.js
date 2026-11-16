@@ -146,47 +146,9 @@
         form.reportValidity();
         return;
       }
-      var button = form.querySelector("button[type=submit]");
-      var error = form.querySelector("[data-form-error]");
-      var data = new FormData(form);
-      if (button) button.disabled = true;
-      if (error) error.hidden = true;
-      fetch("/api/contact", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          name: data.get("name"),
-          email: data.get("email"),
-          phone: data.get("phone"),
-          type: data.get("type"),
-          requirements: data.get("requirements"),
-          budget: data.get("budget"),
-          company: data.get("company"),
-        }),
-      })
-        .then(function (res) {
-          return res.json().then(function (payload) {
-            if (!res.ok) {
-              var failed = new Error((payload && payload.error) || "Could not send");
-              failed.code = payload && payload.code;
-              throw failed;
-            }
-          });
-        })
-        .then(function () {
-          form.classList.add("hide");
-          var thanks = form.parentElement.querySelector("[data-thanks]");
-          if (thanks) thanks.classList.add("show");
-        })
-        .catch(function (err) {
-          if (button) button.disabled = false;
-          if (error) {
-            error.hidden = false;
-            error.textContent = err && err.code === "auth"
-              ? "Gmail rejected the mailbox sign-in. Replace the app password, then try again."
-              : "We couldn't send that. Email help@jetspot.co and we'll pick it up.";
-          }
-        });
+      form.classList.add("hide");
+      var thanks = form.parentElement.querySelector("[data-thanks]");
+      if (thanks) thanks.classList.add("show");
     });
   });
 
