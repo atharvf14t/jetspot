@@ -49,34 +49,53 @@ async function sendContact(body, env) {
   const pass = String(env.GMAIL_APP_PASSWORD || "").replace(/\s+/g, "");
   if (!pass) return { status: 500, payload: { error: "Could not send the message." } };
 
-  const transporter = nodemailer.createTransport({
-    host: "smtp.gmail.com",
-    port: 465,
-    secure: true,
-    auth: { user: INBOX, pass },
-  });
+  const message = {
+    from: "Jetspot <" + INBOX + ">",
+    to: INBOX,
+    replyTo: email,
+    subject: "Quote request from " + name,
+    text: [
+      "Name: " + name,
+      "Email: " + email,
+      "Phone: " + phone,
+      "Project type: " + type,
+      "Budget: " + budget,
+      "",
+      requirements,
+    ].join("\n"),
+  };
 
-  try {
-    await transporter.sendMail({
-      from: "Jetspot <" + INBOX + ">",
-      to: INBOX,
-      replyTo: email,
-      subject: "Quote request from " + name,
-      text: [
-        "Name: " + name,
-        "Email: " + email,
-        "Phone: " + phone,
-        "Project type: " + type,
-        "Budget: " + budget,
-        "",
-        requirements,
-      ].join("\n"),
-    });
-  } catch (err) {
-    console.error(err);
-    return { status: 502, payload: { error: "Could not send the message." } };
+  const attempts = [
+    { port: 465, secure: true },
+    { port: 587, secure: false, requireTLS: true },
+  ];
+  const failures = [];
+  for (let i = 0; i < attempts.length; i++) {
+    const attempt = attempts[i];
+    try {
+      const transporter = nodemailer.createTransport({
+        host: "smtp.gmail.com",
+        port: attempt.port,
+        secure: attempt.secure,
+        requireTLS: !!attempt.requireTLS,
+        family: 4,
+        auth: { user: INBOX, pass },
+        connectionTimeout: 8000,
+        greetingTimeout: 8000,
+        socketTimeout: 12000,
+      });
+      await transporter.sendMail(message);
+      return { status: 200, payload: { ok: true } };
+    } catch (err) {
+      console.error(attempt.port, err && err.code, err && err.responseCode, err && err.response);
+      failures.push({
+        port: attempt.port,
+        code: (err && err.code) || "send",
+        responseCode: (err && err.responseCode) || null,
+      });
+    }
   }
-  return { status: 200, payload: { ok: true } };
+  return { status: 502, payload: { error: "Could not send the message.", failures: failures } };
 }
 
 async function readJson(req) {
