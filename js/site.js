@@ -166,7 +166,11 @@
       })
         .then(function (res) {
           return res.json().then(function (payload) {
-            if (!res.ok) throw new Error((payload && payload.error) || "Could not send");
+            if (!res.ok) {
+              var failed = new Error((payload && payload.error) || "Could not send");
+              failed.code = payload && payload.code;
+              throw failed;
+            }
           });
         })
         .then(function () {
@@ -174,11 +178,13 @@
           var thanks = form.parentElement.querySelector("[data-thanks]");
           if (thanks) thanks.classList.add("show");
         })
-        .catch(function () {
+        .catch(function (err) {
           if (button) button.disabled = false;
           if (error) {
             error.hidden = false;
-            error.textContent = "We couldn't send that. Email help@jetspot.co and we'll pick it up.";
+            error.textContent = err && err.code === "auth"
+              ? "Gmail rejected the mailbox sign-in. Replace the app password, then try again."
+              : "We couldn't send that. Email help@jetspot.co and we'll pick it up.";
           }
         });
     });

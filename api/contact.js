@@ -88,14 +88,17 @@ async function sendContact(body, env) {
       return { status: 200, payload: { ok: true } };
     } catch (err) {
       console.error(attempt.port, err && err.code, err && err.responseCode, err && err.response);
-      failures.push({
-        port: attempt.port,
-        code: (err && err.code) || "send",
-        responseCode: (err && err.responseCode) || null,
-      });
+      failures.push((err && err.responseCode) || 0);
     }
   }
-  return { status: 502, payload: { error: "Could not send the message.", failures: failures } };
+  const auth = failures.indexOf(535) !== -1;
+  return {
+    status: 502,
+    payload: {
+      error: auth ? "Gmail rejected the mailbox sign-in." : "Could not send the message.",
+      code: auth ? "auth" : "send",
+    },
+  };
 }
 
 async function readJson(req) {
