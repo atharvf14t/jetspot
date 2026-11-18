@@ -1,0 +1,10 @@
+{
+  "name": "jetspot",
+  "private": true,
+  "scripts": {
+    "test:mail": "node scripts/send-test.js"
+  },
+  "dependencies": {
+    "nodemailer": "^10.6.0"
+  }
+}

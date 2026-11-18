@@ -1801,6 +1801,26 @@ textarea {
   display: none;
 }
 
+.contact-form .hp {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+.form-error {
+  margin: 0;
+  color: #b3261e;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+.contact-form .btn:disabled {
+  opacity: 0.6;
+  cursor: progress;
+}
+
 .prose {
   max-width: 68ch;
   padding-bottom: 80px;

@@ -146,9 +146,43 @@
         form.reportValidity();
         return;
       }
-      form.classList.add("hide");
+      var button = form.querySelector('button[type="submit"]');
+      var error = form.querySelector("[data-error]");
       var thanks = form.parentElement.querySelector("[data-thanks]");
-      if (thanks) thanks.classList.add("show");
+      var endpoint = form.getAttribute("data-endpoint");
+
+      // Forms without an endpoint (none today besides the contact form) keep the old demo behaviour.
+      var done = function () {
+        form.classList.add("hide");
+        if (thanks) thanks.classList.add("show");
+      };
+      if (!endpoint) {
+        done();
+        return;
+      }
+
+      var data = new FormData(form);
+      var payload = {};
+      data.forEach(function (value, key) { payload[key] = value; });
+      if (button) button.disabled = true;
+      if (error) error.hidden = true;
+
+      fetch(endpoint, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      })
+        .then(function (res) {
+          if (!res.ok) throw new Error("send failed");
+          done();
+        })
+        .catch(function () {
+          if (button) button.disabled = false;
+          if (error) {
+            error.textContent = "We couldn't send that. Please try again, or email hello@jetspot.com.";
+            error.hidden = false;
+          }
+        });
     });
   });
 
