@@ -128,9 +128,10 @@ button {
   gap: 18px;
   width: 100%;
   min-height: 48px;
-  padding: 6px 14px 6px 16px;
+  padding: 6px 6px 6px 16px;
   background: rgba(235, 235, 235, 0.94);
   border-radius: 0 0 16px 16px;
+  transition: border-radius 0.5s var(--ease), background 0.4s ease;
 }
 
 .logo {
@@ -224,40 +225,44 @@ button {
   background: #e2e2e2;
 }
 
-.burger {
-  display: none;
-  width: 36px;
-  height: 36px;
-  margin-left: auto;
-  border-radius: 10px;
-  position: relative;
+.menu-plus {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  width: 28px;
+  height: 28px;
+  margin-left: -10px;
+  border-radius: 50%;
+  background: #fff;
+  color: #121212;
 }
 
-.burger span,
-.burger span::before,
-.burger span::after {
-  position: absolute;
-  left: 9px;
-  width: 18px;
-  height: 1.5px;
-  background: var(--ink);
-  content: "";
+.menu-plus svg {
+  width: 16px;
+  height: 16px;
+  fill: currentColor;
+  transition: transform 0.35s var(--ease);
 }
 
-.burger span {
-  top: 17px;
-}
-
-.burger span::before {
-  top: -6px;
-}
-
-.burger span::after {
-  top: 6px;
+.menu-plus[aria-expanded="true"] svg {
+  transform: rotate(45deg);
 }
 
 .menu {
-  display: none;
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  top: 48px;
+  left: var(--frame);
+  right: var(--frame);
+  z-index: 45;
+  height: 0;
+  overflow: hidden;
+  pointer-events: none;
+  background: #ebebeb;
+  border-radius: 0 0 16px 16px;
+  transition: height 0.55s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 /* Hero */
@@ -1880,8 +1885,8 @@ textarea {
     display: none;
   }
 
-  .burger {
-    display: inline-block;
+  .menu-plus {
+    margin-left: auto;
   }
 
   .cards,
@@ -1975,32 +1980,113 @@ textarea {
   }
 }
 
-.menu.open {
-  display: block;
+body.menu-open {
+  overflow: hidden;
+}
+
+body::before {
+  content: "";
   position: fixed;
-  inset: 56px 12px 12px;
-  z-index: 45;
-  background: #fff;
-  border-radius: 20px;
-  padding: 22px;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.12);
-  overflow: auto;
+  inset: 0;
+  z-index: 35;
+  background: rgba(0, 0, 0, 0.4);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.45s ease, visibility 0.45s;
 }
 
-.menu a {
-  display: block;
-  padding: 10px 0;
-  font-size: 28px;
-  letter-spacing: -0.04em;
-  border-bottom: 1px solid var(--line);
+body.menu-open::before {
+  opacity: 1;
+  visibility: visible;
 }
 
-.menu .fine {
+body.menu-open .topbar {
+  background: transparent;
+}
+
+body.menu-open .topbar-inner {
+  border-radius: 0;
+  background: #ebebeb;
+}
+
+.menu.open {
+  pointer-events: auto;
+}
+
+.menu-pages,
+.menu-foot {
+  opacity: 0;
+  transform: translateY(-10px);
+  transition: opacity 0.4s ease, transform 0.5s var(--ease);
+}
+
+.menu.open .menu-pages,
+.menu.open .menu-foot {
+  opacity: 1;
+  transform: none;
+}
+
+.menu-pages {
   display: grid;
-  gap: 6px;
-  margin-top: 18px;
+  max-width: 560px;
+  padding: 22px 18px 0;
+}
+
+.menu-pages a {
+  display: block;
+  padding: 12px 0 13px;
+  border-bottom: 1px solid rgba(10, 10, 10, 0.16);
+  color: #0a0a0a;
+  font-size: 24px;
+  font-weight: 400;
+  line-height: 1.3;
+  letter-spacing: -0.04em;
+}
+
+.menu-foot {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
+  margin-top: 28px;
+  padding: 0 18px 20px;
+}
+
+.menu-contact {
+  display: grid;
+  gap: 8px;
+}
+
+.menu-contact a {
+  color: #0a0a0a;
+  font-size: 18px;
+  letter-spacing: -0.04em;
+}
+
+.menu-contact span,
+.menu-social a {
+  color: #0a0a0a;
   font-size: 14px;
-  color: var(--muted);
+  letter-spacing: -0.04em;
+}
+
+.menu-social {
+  display: flex;
+  gap: 16px;
+}
+
+@media (max-width: 980px) {
+  .menu-foot {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    margin-top: 32px;
+  }
+
+  .menu-social {
+    justify-content: center;
+  }
 }
 
 /* Sections rise into place, the same timed fade QubeSys uses. */
@@ -2037,6 +2123,11 @@ html.motion-ready .rise {
   .acc-num,
   .acc-plus,
   .acc-plus svg,
+  .menu-plus svg,
+  .menu,
+  .menu-pages,
+  .menu-foot,
+  body::before,
   .btn,
   #stories .carousel-track {
     animation: none;

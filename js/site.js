@@ -18,9 +18,54 @@
   var burger = document.querySelector("[data-burger]");
   var menu = document.querySelector("[data-menu]");
   if (burger && menu) {
-    burger.addEventListener("click", function () {
-      var open = menu.classList.toggle("open");
+    var reduceMenu = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    var setMenu = function (open) {
+      if (menu.classList.contains("open") === open) return;
+      document.body.classList.toggle("menu-open", open);
       burger.setAttribute("aria-expanded", open ? "true" : "false");
+      burger.setAttribute("aria-label", open ? "Close menu" : "Open menu");
+      if (reduceMenu) {
+        menu.classList.toggle("open", open);
+        menu.style.height = open ? "auto" : "0px";
+        return;
+      }
+      if (open) {
+        menu.classList.add("open");
+        menu.style.overflow = "hidden";
+        menu.style.height = "auto";
+        var full = menu.scrollHeight;
+        var target = Math.min(full, window.innerHeight - 60);
+        menu.dataset.full = String(full);
+        menu.style.height = "0px";
+        menu.offsetHeight;
+        requestAnimationFrame(function () {
+          menu.style.height = target + "px";
+        });
+      } else {
+        menu.style.overflow = "hidden";
+        menu.style.height = menu.offsetHeight + "px";
+        menu.offsetHeight;
+        menu.classList.remove("open");
+        requestAnimationFrame(function () {
+          menu.style.height = "0px";
+        });
+      }
+    };
+    menu.addEventListener("transitionend", function (event) {
+      if (event.propertyName !== "height" || !menu.classList.contains("open")) return;
+      if (Number(menu.dataset.full) > window.innerHeight - 60) {
+        menu.style.overflow = "auto";
+      } else {
+        menu.style.height = "auto";
+      }
+    });
+    burger.addEventListener("click", function () {
+      setMenu(!menu.classList.contains("open"));
+    });
+    document.addEventListener("click", function (event) {
+      if (!menu.classList.contains("open")) return;
+      if (burger.contains(event.target) || menu.contains(event.target)) return;
+      setMenu(false);
     });
   }
 
