@@ -110,6 +110,26 @@
         ? "transform 0.5s cubic-bezier(0.44, 0, 0.56, 1)"
         : "none";
       track.style.transform = "translateX(" + (-i * step()) + "px)";
+      paintDots();
+    };
+
+    var dots = document.querySelector("[data-dots]");
+    var paintDots = function () {
+      if (!dots || !originals) return;
+      var current = ((index % originals) + originals) % originals;
+      if (dots.children.length !== originals) {
+        dots.replaceChildren();
+        for (var d = 0; d < originals; d++) {
+          var dot = document.createElement("button");
+          dot.type = "button";
+          dot.setAttribute("aria-label", "Scroll to page " + (d + 1));
+          dots.appendChild(dot);
+        }
+      }
+      Array.prototype.forEach.call(dots.children, function (dot, n) {
+        if (n === current) dot.setAttribute("aria-current", "true");
+        else dot.removeAttribute("aria-current");
+      });
     };
 
     var go = function (dir) {
@@ -166,6 +186,22 @@
         go(Number(btn.getAttribute("data-dir")));
       });
     });
+
+    if (dots) {
+      dots.addEventListener("click", function (event) {
+        var dot = event.target.closest("button");
+        if (!dot || animating) return;
+        var n = Array.prototype.indexOf.call(dots.children, dot);
+        if (n < 0 || n === index % originals) return;
+        index = n;
+        animating = true;
+        place(index, true);
+        clearTimeout(timer);
+        timer = setTimeout(function () { animating = false; }, 560);
+      });
+    }
+
+    place(0, false);
   }
 
   var filters = document.querySelector("[data-filters]");
