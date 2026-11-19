@@ -489,6 +489,13 @@ section {
     margin: 0;
     text-align: right;
   }
+
+  .about-line:not(:has(.ticker)) .sub {
+    width: auto;
+    max-width: 46ch;
+    margin: 22px 0 0;
+    text-align: left;
+  }
 }
 
 .sub {
