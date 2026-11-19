@@ -301,6 +301,10 @@ button {
   margin-top: 92px;
 }
 
+.hero-meta:not(:has(.marquee)):not(:has(.rating)) {
+  display: none;
+}
+
 .hero-meta .marquee {
   margin-top: 0;
   -webkit-mask-image: linear-gradient(to right, transparent 0%, #000 7.5%, #000 92.5%, transparent 100%);
